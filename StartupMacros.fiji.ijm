@@ -265,10 +265,9 @@ macro "Z Project & Crop Folder" {
 macro "✨Save all channels as jpeg" {
     runMacro("save all channels as jpg.ijm");
 }
-macro "✨[Isshin]Z Project & Composite Folder" {
-    runMacro("zpcomposite.ijm");
-}
-
 macro "✨[Isshin]Z Project & Composite & Color Folder" {
     runMacro("zpcomposite + color.ijm");
+}
+macro "✨[Isshin]Z Project & Composite & Color Folder + export to jpeg" {
+    runMacro("zpcomposite-ishinczijpg.ijm");
 }

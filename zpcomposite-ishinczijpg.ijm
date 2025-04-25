@@ -3,12 +3,12 @@ numberOfSlices = getNumber("Enter number of slices for Z projection", 7);
 
 // Ask brightness settings
 Dialog.create("Set Brightness for Each Channel (-1 to skip)");
-Dialog.addNumber("Channel 1 Min:", -1);
-Dialog.addNumber("Channel 1 Max:", -1);
-Dialog.addNumber("Channel 2 Min:", -1);
-Dialog.addNumber("Channel 2 Max:", -1);
-Dialog.addNumber("Channel 3 Min:", -1);
-Dialog.addNumber("Channel 3 Max:", -1);
+Dialog.addNumber("Channel 1 Min:", 385);
+Dialog.addNumber("Channel 1 Max:", 65535);
+Dialog.addNumber("Channel 2 Min:", 1366);
+Dialog.addNumber("Channel 2 Max:", 32323);
+Dialog.addNumber("Channel 3 Min:", 0);
+Dialog.addNumber("Channel 3 Max:", 20000);
 Dialog.show();
 
 c1Min = Dialog.getNumber();
@@ -56,12 +56,20 @@ for (i = 0; i < list.length; i++) {
         Stack.setDisplayMode("composite");
         run("Apply LUT");
 
-        // Detect how many channels
-        maxChannels = Stack.getDimensions()[2];
+        // Get dimensions to determine number of channels
+        getDimensions(width, height, channels, slices, frames);
 
         // Apply brightness
-        safeSetMinMax(1, c1Min, c1Max, maxChannels);
-        safeSetMinMax(2, c2Min, c2Max, maxChannels);
-        safeSetMinMax(3, c3Min, c3Max, maxChannels);
+        safeSetMinMax(1, c1Min, c1Max, channels);
+        safeSetMinMax(2, c2Min, c2Max, channels);
+        safeSetMinMax(3, c3Min, c3Max, channels);
+
+        // --- Save composite image as JPEG inside a new "JPEG Export" folder ---
+        // Create a new folder named "JPEG Export" inside the original folder
+        processedFolder = dir + "/JPEG Export/";
+        File.makeDirectory(processedFolder);
+
+        // Save the composite image as JPEG inside the "Processed" folder
+        saveAs("jpeg", processedFolder + list[i] + ".jpg");
     }
 }
